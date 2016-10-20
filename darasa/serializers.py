@@ -1,18 +1,22 @@
 from rest_framework import serializers
 from .models import Student
-from django.contrib.auth.models import User
+from users.models import CustomUser
 
 class StudentSerializer(serializers.ModelSerializer):
-	teacher = serializers.ReadOnlyField(source='owner.username')
+	teacher = serializers.ReadOnlyField(source='teacher.username')
 
 	class Meta:
 		model = Student
-		field = ('id', 'name','teacher')
+		# fields = ('id', 'name','teacher','phone')
 
 
 class TeacherSerializer(serializers.ModelSerializer):
     students = serializers.PrimaryKeyRelatedField(many=True, queryset=Student.objects.all())
-
+    
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('id', 'username', 'students')
+
+
+
+

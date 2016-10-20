@@ -25,6 +25,7 @@ SECRET_KEY = 'c)$$0z0jwlzspqw(iq)rrmht@lytmyz!#(lyhjzvsd4kz+-%p4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AUTH_USER_MODEL = 'users.CustomUser'
 ALLOWED_HOSTS = []
 
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'darasa',
     'rest_framework',
     'django_extensions',
@@ -82,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
-        'NAME': 'schproj',
+        'NAME': 'shule',
         'PASSWORD': '143Ndinda',
         'PORT': 5432,
         'USER': 'saruni',

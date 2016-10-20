@@ -1,26 +1,62 @@
-from rest_framework import generics, permissions
+from rest_framework import generics
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticatedOrReadOnly,
+    IsAdminUser,
+    IsAuthenticated,
+    )
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.filters import (
+    SearchFilter,
+    OrderingFilter,
+    )
+
 from .serializers import StudentSerializer, TeacherSerializer
 from .models import Student
+from users.models import CustomUser
 from .permissions import IsOwnerOrReadOnly
 from django.contrib.auth.models import User
+from django.db.models import Q
 from rest_framework import viewsets
 
-class ListCreateStudent(generics.ListCreateAPIView):
-	queryset = Student.objects.all()
-	serializer_class = StudentSerializer
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                      IsOwnerOrReadOnly,)
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
-	def perform_create(self, serializer):
+class ListCreateStudent(generics.ListCreateAPIView):
+    filter_backends = [SearchFilter]
+    search_fields = ['name', 'phone', 'owner__username']
+    serializer_class = StudentSerializer
+    permission_classes = (IsAuthenticated,
+                      IsOwnerOrReadOnly,
+                      )
+    
+    def list(self, request, *args, **kwargs):
+        self.object_list = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(self.object_list, many=True)
+        return Response({'students': serializer.data})
+
+    def get_queryset(self, *args , **kwargs):
+        queryset_list = Student.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(name__icontains=query)|
+                Q(phone__icontains=query)|
+                Q(owner__username__icontains=query)
+                ).distinct()
+
+        return queryset_list
+
+    
+    def perform_create(self, serializer):
 		serializer.save(owner=self.request.user)
 
 class DetailStudent(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Student.objects.all()
 	serializer_class = StudentSerializer
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+	permission_classes = (IsAuthenticated,
                       IsOwnerOrReadOnly,)
 
 	def perform_create(self, serializer):
@@ -28,12 +64,12 @@ class DetailStudent(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ListCreateTeacher(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = TeacherSerializer
 
 
 class DetailTeacher(generics.RetrieveAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = TeacherSerializer
 
 
@@ -44,23 +80,3 @@ def api_root(request, format=None):
         'students': reverse('student-list', request=request, format=format),
     })
 
-
-# class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
-#     """
-#     This viewset automatically provides `list` and `detail` actions.
-#     """
-#     queryset = User.objects.all()
-#     serializer_class = TeacherSerializer
-
-# class StudentViewSet(viewsets.ModelViewSet):
-#     """
-#     This viewset automatically provides `list`, `create`, `retrieve`,
-#     `update` and `destroy` actions.
-#     """
-#     queryset = Student.objects.all()
-#     serializer_class = StudentSerializer
-#     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-#                           IsOwnerOrReadOnly,)
-
-#     def perform_create(self, serializer):
-#         serializer.save(owner=self.request.user)
