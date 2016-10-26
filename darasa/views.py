@@ -16,7 +16,7 @@ from rest_framework.filters import (
 from .serializers import StudentSerializer, TeacherSerializer
 from .models import Student
 from users.models import CustomUser
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsTeacherOrReadOnly
 from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework import viewsets
@@ -29,7 +29,7 @@ class ListCreateStudent(generics.ListCreateAPIView):
     search_fields = ['name', 'phone', 'owner__username']
     serializer_class = StudentSerializer
     permission_classes = (IsAuthenticated,
-                      IsOwnerOrReadOnly,
+                      IsTeacherOrReadOnly,
                       )
     
     def list(self, request, *args, **kwargs):
@@ -51,16 +51,16 @@ class ListCreateStudent(generics.ListCreateAPIView):
 
     
     def perform_create(self, serializer):
-		serializer.save(owner=self.request.user)
+		serializer.save(teacher=self.request.user)
 
 class DetailStudent(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Student.objects.all()
 	serializer_class = StudentSerializer
 	permission_classes = (IsAuthenticated,
-                      IsOwnerOrReadOnly,)
+                      IsTeacherOrReadOnly,)
 
 	def perform_create(self, serializer):
-		serializer.save(owner=self.request.user)
+		serializer.save(teacher=self.request.user)
 
 
 class ListCreateTeacher(generics.ListAPIView):
