@@ -5,13 +5,10 @@ from django.utils import timezone
 from users.models import CustomUser
 
 class Student(models.Model):
-	teacher = models.ForeignKey(CustomUser, related_name='students',null=True, blank=True)
 	name = models.CharField(blank=False,null=False,default='name' , max_length=128)
-	phone = models.CharField(max_length=255)
-	modified_at = models.DateTimeField(auto_now=True)
-
-	def save(self, *args, **kwargs):
-	    super(Student, self).save(*args, **kwargs)
+	teacher = models.ForeignKey(CustomUser, related_name='students',null=True, blank=True)
+	phone = models.CharField(max_length=255, null=True,blank=True)
+	modified_at = models.DateTimeField(auto_now_add=True,blank=True)
 
 	def __unicode__(self):
 		return self.name
