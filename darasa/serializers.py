@@ -11,9 +11,10 @@ class TeacherSerializer(serializers.ModelSerializer):
         # fields = ('id', 'username', 'students')
 
 class StudentSerializer(serializers.ModelSerializer):
-	# teacher = CustomUserSerializer(read_only=True)
+    teacher = CustomUserSerializer(read_only=True)
+    user = CustomUserSerializer(read_only=True)
 
-	class Meta:
+    class Meta:
 		model = Student
 		# fields = ('id', 'name','teacher','phone')
 
