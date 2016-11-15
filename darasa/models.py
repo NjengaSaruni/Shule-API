@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.dispatch import receiver
 from django.utils import timezone
 from users.models import CustomUser
 
@@ -10,6 +11,7 @@ class Student(models.Model):
 
 	def __unicode__(self):
 		return '{}  {}'.format(self.user.first_name, self.user.last_name)
+
 
 class Subject(models.Model):
 	name = models.CharField(max_length=128)
