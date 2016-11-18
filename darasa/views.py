@@ -63,12 +63,12 @@ class DetailStudent(generics.RetrieveUpdateDestroyAPIView):
 		serializer.save(teacher=self.request.user)
 
 
-class ListCreateTeacher(generics.ListAPIView):
+class ListCreateTeacher(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = TeacherSerializer
 
 
-class DetailTeacher(generics.RetrieveAPIView):
+class DetailTeacher(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = TeacherSerializer
 

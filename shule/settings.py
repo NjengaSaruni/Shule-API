@@ -26,7 +26,10 @@ SECRET_KEY = 'c)$$0z0jwlzspqw(iq)rrmht@lytmyz!#(lyhjzvsd4kz+-%p4'
 DEBUG = True
 
 AUTH_USER_MODEL = 'users.CustomUser'
-ALLOWED_HOSTS = ['.localhost']
+ALLOWED_HOSTS = ['.localhost' ,
+                    '0.0.0.0',
+                    '127.0.0.1',
+                    ]
 
 
 # Application definition
@@ -39,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework_jwt',
     'django_extensions',
     'corsheaders',
     'users',
@@ -69,11 +72,11 @@ CORS_ALLOW_METHODS = (
     'DELETE',
     'OPTIONS'
 )
-CSRF_COOKIE_NAME = 'csrftoken'
-CSRF_HEADER_NAME = 'Cookie'
+# CSRF_COOKIE_NAME = 'csrftoken'
+# CSRF_HEADER_NAME = 'Cookie'
 
-# CSRF_COOKIE_HTTPONLY = False
-# CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'shule.urls'
 
@@ -117,11 +120,13 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
-   'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 }
 
