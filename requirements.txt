@@ -27,7 +27,7 @@ gyp==0.1
 hotspotd==0.1.6
 html5lib==0.999
 httpie==0.9.2
-httplib2==0.9
+httplib2==0.18.0
 idna==2.0
 ipaddress==1.0.14
 lockfile==0.10.2
