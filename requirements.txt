@@ -14,7 +14,7 @@ cffi==1.1.2
 characteristic==14.3.0
 chardet==2.3.0
 colorama==0.3.3
-cryptography==1.0.1
+cryptography==3.2
 debtags==2.0
 defer==1.0.6
 dirspec==13.10
