@@ -20,7 +20,7 @@ defer==1.0.6
 dirspec==13.10
 django-cors-headers==1.2.2
 django-extensions==1.7.4
-djangorestframework==3.4.7
+djangorestframework==3.11.2
 duplicity==0.7.2
 enum34==1.0.4
 gyp==0.1
