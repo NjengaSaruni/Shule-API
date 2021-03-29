@@ -2,7 +2,7 @@ Django==1.10.1
 PAM==0.4.2
 Pillow==2.9.0
 PyJWT==1.0.0
-Pygments==2.0.1
+Pygments==2.7.4
 Twisted-Core==15.2.1
 Twisted-Web==15.2.1
 adium-theme-ubuntu==0.3.4
