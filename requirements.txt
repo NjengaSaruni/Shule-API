@@ -1,6 +1,6 @@
 Django==1.10.1
 PAM==0.4.2
-Pillow==2.9.0
+Pillow==8.3.2
 PyJWT==1.0.0
 Pygments==2.0.1
 Twisted-Core==15.2.1
