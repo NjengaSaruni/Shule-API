@@ -31,7 +31,7 @@ httplib2==0.9
 idna==2.0
 ipaddress==1.0.14
 lockfile==0.10.2
-lxml==3.4.4
+lxml==4.9.1
 ndg-httpsclient==0.4.0
 oauthlib==1.0.0
 oneconf==0.3.8
