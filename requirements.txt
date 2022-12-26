@@ -59,7 +59,7 @@ ubuntuone-client-data==14.4
 unity-lens-photos==1.0
 urllib3==1.11
 virtualenv==15.0.3
-wheel==0.26.0
+wheel==0.38.1
 wsgiref==0.1.2
 xdiagnose==3.8.1
 youtube-dl==2015.6.4.1
